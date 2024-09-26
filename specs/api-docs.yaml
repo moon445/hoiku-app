@@ -1,0 +1,596 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /user/{id}:
+    get:
+      tags:
+      - users
+      summary: ユーザーを取得
+      description: IDを指定してユーザーを取得
+      operationId: getUser
+      parameters:
+      - name: id
+        in: path
+        description: タスクのID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      tags:
+      - users
+      summary: ユーザーを更新する
+      description: ユーザーのリクエストされたプロパティを更新します。
+      operationId: replaceUser
+      parameters:
+      - name: id
+        in: path
+        description: ユーザーのID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Users"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /tasks/{id}:
+    get:
+      tags:
+      - tasks
+      summary: タスクを取得する。
+      description: IDを指定してタスクを取得します。
+      operationId: getTask
+      parameters:
+      - name: id
+        in: path
+        description: タスクのID
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      tags:
+      - tasks
+      summary: タスクを更新する
+      description: タスクのリクエストされたプロパティを更新します。
+      operationId: replaceTask
+      parameters:
+      - name: id
+        in: path
+        description: タスクのID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+      - tasks
+      summary: タスクを削除する。
+      description: 指定されたIDのタスクを削除します。
+      operationId: deleteTask
+      parameters:
+      - name: id
+        in: path
+        description: タスクのID
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /tasks:
+    get:
+      tags:
+      - tasks
+      summary: タスクリストを取得する
+      description: タスクのリストを取得します。
+      operationId: findAllTasks
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+    post:
+      tags:
+      - tasks
+      summary: タスクを作成をする
+      description: タスクを作成します。
+      operationId: createTask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+        required: true
+      responses:
+        "201":
+          description: 作成されました。
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+  /user:
+    get:
+      tags:
+      - users
+      summary: ユーザーリストを取得
+      description: ユーザーのリストを取得
+      operationId: findAllUser
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Users"
+  /user/{id}/child:
+    get:
+      tags:
+      - child
+      summary: ユーザーリストを取得
+      description: ユーザーのリストを取得
+      operationId: findAllchildByUser
+      parameters:
+      - name: id
+        in: path
+        description: タスクのID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Child"
+  /post:
+    get:
+      tags:
+      - post
+      summary: ユーザーリストを取得
+      description: ユーザーのリストを取得
+      operationId: findAllUser_1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+  /post/{classId}:
+    get:
+      tags:
+      - post
+      summary: クラスidごとの投稿リストを取得
+      description: クラス単位の投稿を取得
+      operationId: findAllClassidByPost
+      parameters:
+      - name: classId
+        in: path
+        description: クラスID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+  /login:
+    get:
+      tags:
+      - users
+      summary: ユーザーの存在確認
+      description: mailとpasswaordで一致するレコードを取得
+      operationId: login
+      parameters:
+      - name: mail
+        in: query
+        description: メールアドレス
+        required: true
+        schema:
+          type: string
+      - name: password
+        in: query
+        description: パスワード
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /growth:
+    get:
+      tags:
+      - growth
+      summary: 成長記録リストを取得
+      description: 成長記録をリストで取得
+      operationId: findAllUser_2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Growth"
+  /growth/{classId}:
+    get:
+      tags:
+      - growth
+      summary: クラスidごとの成長記録を取得
+      description: クラス単位の成長記録を取得
+      operationId: findAllClassidByGrowth
+      parameters:
+      - name: classId
+        in: path
+        description: クラスID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Growth"
+  /growth/child/{childId}:
+    get:
+      tags:
+      - growth
+      summary: 子供idごとの成長記録を取得
+      description: 子供単位の成長記録を取得
+      operationId: getGrowthsByChild
+      parameters:
+      - name: childId
+        in: path
+        description: 子供ID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Growth"
+  /child:
+    get:
+      tags:
+      - child
+      summary: ユーザーリストを取得
+      description: ユーザーのリストを取得
+      operationId: findAllUser_3
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Child"
+  /child/{id}:
+    get:
+      tags:
+      - child
+      summary: ユーザーを取得
+      description: IDを指定してユーザーを取得
+      operationId: getUser_1
+      parameters:
+      - name: id
+        in: path
+        description: タスクのID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Child"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /child/{childId}/growth/{classId}:
+    get:
+      tags:
+      - growth
+      summary: クラスidごとの成長記録を取得
+      description: クラス単位の成長記録を取得
+      operationId: getGrowthsByChildAndClass
+      parameters:
+      - name: childId
+        in: path
+        description: 子供ID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: classId
+        in: path
+        description: クラスID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Growth"
+components:
+  schemas:
+    Users:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID
+          format: int32
+        userName:
+          type: string
+          description: ユーザーネーム
+        role:
+          type: integer
+          description: 権限
+          format: int32
+        mail:
+          type: string
+          description: メールアドレス
+        password:
+          type: string
+          description: パスワード
+        createdAt:
+          type: string
+          description: 登録日
+          format: date-time
+        roleName:
+          type: string
+          description: 権限名
+      description: ユーザデータ
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+          format: int32
+        error:
+          type: string
+        path:
+          type: string
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID
+          format: int32
+        title:
+          type: string
+          description: タスクの件名です
+        description:
+          type: string
+          description: タスクの詳細な説明です。
+      description: タスクデータ
+    Child:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID
+          format: int32
+        parentId:
+          type: integer
+          description: 親id
+          format: int32
+        child_name:
+          type: string
+          description: 子供名前
+        birthday:
+          type: string
+          description: 誕生日
+        gender:
+          type: integer
+          description: 性別
+          format: int32
+        classPeriod:
+          $ref: "#/components/schemas/ClassPeriod"
+        genderName:
+          type: string
+          description: 性別名称
+      description: 子供データ
+    ClassPeriod:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID
+          format: int32
+        childId:
+          type: integer
+          description: 子供ID
+          format: int32
+        zaiseki_start_date:
+          type: string
+          description: 在籍開始日
+          format: date-time
+        zaiseki_end_date:
+          type: string
+          description: 在籍終了日
+          format: date-time
+        className:
+          type: string
+          description: クラス名称
+      description: クラスマッピング
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID
+          format: int32
+        title:
+          type: string
+          description: タイトル
+        post:
+          type: string
+          description: 投稿
+        created_at:
+          type: string
+          description: 投稿日時
+        updated_at:
+          type: string
+          description: 更新日時
+        classId:
+          type: integer
+          description: クラスID
+          format: int32
+      description: 権限マスタ
+    Growth:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID
+          format: int32
+        childId:
+          type: integer
+          description: 子供id
+          format: int32
+        classId:
+          type: integer
+          description: クラスid
+          format: int32
+        month:
+          type: integer
+          description: 記録月
+          format: int32
+        height:
+          type: number
+          description: 身長
+          format: float
+        weight:
+          type: number
+          description: 体重
+          format: float
+      description: 成長記録
